@@ -1,0 +1,36 @@
+# Registro de Aprendizaje y Resolución de Problemas en Automatización QA
+
+Este documento destaca desafíos clave encontrados y cómo fueron resueltos durante el desarrollo de tests automatizados con Playwright.
+
+---
+
+## 1. Reto: Inconsistencia Cross-Browser (WebKit/Safari)
+
+**Problema:** Tests de compra fallaban por timeout en WebKit (simulación de Safari), mientras funcionaban en Chrome y Firefox. Esto indicaba un problema de compatibilidad o temporización específico del motor de Apple.
+
+**Resolución:**
+1.  **Diagnóstico:** Ejecución del test en modo visible (`--headed`) en WebKit para observar el comportamiento. Se notó un retraso en la renderización del botón clave.
+2.  **Solución:** Se implementaron **esperas explícitas y robustas** antes del clic (`.toBeVisible()`, `.toBeEnabled()`) con un timeout ajustado. Esto aseguró que Playwright interactuara con el elemento solo cuando estuviera completamente listo en WebKit.
+3.  **Resultado:** Tests ahora estables en todos los navegadores.
+
+**Habilidad Demostrada:** Depuración de problemas de compatibilidad cross-browser, implementación de esperas eficientes para tests robustos.
+
+---
+
+## 2. Reto: Conflictos en Variables de Entorno
+
+**Problema:** Un test de login fallaba porque el nombre de usuario esperado en la interfaz (`polo`) no coincidía con el nombre que Playwright estaba leyendo de las variables de entorno (`polma`).
+
+**Resolución:**
+1.  **Diagnóstico:** Se identificó que la variable `USERNAME` de mi archivo `.env` estaba siendo sobrescrita por una variable de entorno de mi sistema operativo (`polma`), un comportamiento estándar de la librería `dotenv`.
+2.  **Solución:** Se renombró la variable en el archivo `.env` a un nombre más específico (`TEST_USERNAME`) para evitar conflictos con las variables del sistema.
+3.  **Resultado:** La aplicación ahora lee el usuario correcto, y el test de login pasa satisfactoriamente.
+
+**Habilidad Demostrada:** Gestión y configuración de entornos de testing, resolución de conflictos de variables de entorno, atención al detalle.
+
+---
+
+### **Conclusión**
+
+Estos ejemplos ilustran mi enfoque para identificar, analizar y resolver problemas técnicos en el testing de automatización. Mi objetivo es crear tests fiables y garantizar la calidad de la aplicación en diversos entornos.
+
